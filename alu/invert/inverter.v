@@ -1,4 +1,3 @@
-`include "../alu/width.v"
 module inverter(
 clock,
 enable,

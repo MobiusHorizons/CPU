@@ -13,7 +13,7 @@ wire `DATA_WIDTH result;
 initial begin
 	$display( "time\t clk	enable	cmd	 op1	acc	 out -- add sub mul div inv");
 
-	$monitor( "%g:\t%b\t%b\t%d\t%d\t%d\t%d",
+	$monitor( "%g:\t%b\t%b\t%d\t%b\t%b\t%b",
 		$time, clock, enable, cmd, opperand, accumulator, out);
 	accumulator = 50;
 	opperand = 32;
@@ -40,9 +40,22 @@ initial begin
 	#2 clock = 1;
 	#5 clock = 0;
 	accumulator = out;
-	cmd = 4'h4;
+	opperand = 16'b00111100;
+	cmd = 4'h9;
 	#5 clock = 1;
 	#5 clock = 0;
+
+	accumulator = out;
+	opperand = 16'b11001010;
+	cmd = 4'hB;
+	#5 clock = 1;
+	#5 clock = 0;
+
+	accumulator = out;
+	cmd = 4'hC;
+	#5 clock = 1;
+	#5 clock = 0;
+
 	#5 enable = 0;
 	#5 $finish;
 end

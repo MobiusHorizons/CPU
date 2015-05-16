@@ -1,5 +1,4 @@
-`include "../alu/width.v"
-module subtracter(
+module divider(
 clock,
 enable,
 op1,
@@ -27,10 +26,10 @@ reg  `DATA_WIDTH result;
 
 
 always @ (posedge clock)
-begin : SUB
+begin : DIV
 
 	if (enable == 1'b1) begin
-		result = #1 op1 - op2;
+		result = #2 op1 / op2;
 	end
 end
 

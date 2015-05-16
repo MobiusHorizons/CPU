@@ -1,4 +1,3 @@
-`include "../alu/width.v"
 module multiplier(
 clock,
 enable,
