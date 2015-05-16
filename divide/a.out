@@ -1,0 +1,105 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x22a2b80 .scope module, "divider_tb" "divider_tb" 2 2;
+ .timescale 0 0;
+v0x22b7fd0_0 .var "clock", 0 0;
+v0x22b8070_0 .var "enable", 0 0;
+v0x22b8120_0 .var "op1", 4 0;
+v0x22b81d0_0 .var "op2", 4 0;
+v0x22b82b0_0 .net "result", 4 0, v0x22b7ef0_0; 1 drivers
+S_0x22a2c70 .scope module, "U_divider" "divider" 2 36, 3 2, S_0x22a2b80;
+ .timescale 0 0;
+v0x22b7ba0_0 .net "clock", 0 0, v0x22b7fd0_0; 1 drivers
+v0x22b7c60_0 .net "enable", 0 0, v0x22b8070_0; 1 drivers
+v0x22b7d00_0 .net "op1", 4 0, v0x22b8120_0; 1 drivers
+v0x22b7da0_0 .net "op2", 4 0, v0x22b81d0_0; 1 drivers
+v0x22b7e50_0 .net "reset", 0 0, C4<z>; 0 drivers
+v0x22b7ef0_0 .var "result", 4 0;
+E_0x22a3080 .event posedge, v0x22b7ba0_0;
+S_0x22a46b0 .scope begin, "DIV" "DIV" 3 30, 3 30, S_0x22a2c70;
+ .timescale 0 0;
+v0x22a47a0_0 .var *"_s0", 4 0; Local signal
+    .scope S_0x22a2c70;
+T_0 ;
+    %wait E_0x22a3080;
+    %fork t_1, S_0x22a46b0;
+    %jmp t_0;
+    .scope S_0x22a46b0;
+t_1 ;
+    %load/v 8, v0x22b7c60_0, 1;
+    %jmp/0xz  T_0.0, 8;
+    %load/v 8, v0x22b7d00_0, 5;
+    %load/v 13, v0x22b7da0_0, 5;
+    %div 8, 13, 5;
+    %set/v v0x22a47a0_0, 8, 5;
+    %movi 8, 2, 3;
+    %ix/get 0, 8, 3;
+    %delayx 0;
+    %load/v 8, v0x22a47a0_0, 5;
+    %set/v v0x22b7ef0_0, 8, 5;
+T_0.0 ;
+    %end;
+    .scope S_0x22a2c70;
+t_0 %join;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0x22a2b80;
+T_1 ;
+    %vpi_call 2 10 "$display", "time\011 clk enable adder";
+    %vpi_call 2 11 "$monitor", "%g\011 %b\011%b\011%d / %d  =%d", $time, v0x22b7fd0_0, v0x22b8070_0, v0x22b8120_0, v0x22b81d0_0, v0x22b82b0_0;
+    %set/v v0x22b8120_0, 0, 5;
+    %set/v v0x22b81d0_0, 0, 5;
+    %set/v v0x22b7fd0_0, 1, 1;
+    %set/v v0x22b8070_0, 0, 1;
+    %delay 10, 0;
+    %set/v v0x22b8070_0, 1, 1;
+    %delay 1280, 0;
+    %set/v v0x22b8070_0, 0, 1;
+    %delay 5, 0;
+    %vpi_call 2 19 "$finish";
+    %end;
+    .thread T_1;
+    .scope S_0x22a2b80;
+T_2 ;
+    %delay 4, 0;
+    %load/v 8, v0x22b8070_0, 1;
+    %load/v 9, v0x22b7fd0_0, 1;
+    %cmpi/u 9, 0, 1;
+    %mov 9, 4, 1;
+    %and 8, 9, 1;
+    %jmp/0xz  T_2.0, 8;
+    %load/v 8, v0x22b8120_0, 5;
+    %cmpi/u 8, 15, 5;
+    %jmp/0xz  T_2.2, 4;
+    %ix/load 0, 5, 0;
+    %assign/v0 v0x22b8120_0, 0, 0;
+    %load/v 8, v0x22b81d0_0, 5;
+    %mov 13, 0, 27;
+    %addi 8, 1, 32;
+    %ix/load 0, 5, 0;
+    %assign/v0 v0x22b81d0_0, 0, 8;
+    %jmp T_2.3;
+T_2.2 ;
+    %load/v 8, v0x22b8120_0, 5;
+    %mov 13, 0, 27;
+    %addi 8, 1, 32;
+    %ix/load 0, 5, 0;
+    %assign/v0 v0x22b8120_0, 0, 8;
+T_2.3 ;
+T_2.0 ;
+    %delay 1, 0;
+    %load/v 8, v0x22b7fd0_0, 1;
+    %inv 8, 1;
+    %set/v v0x22b7fd0_0, 8, 1;
+    %jmp T_2;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "testbench.v";
+    "./divider.v";
